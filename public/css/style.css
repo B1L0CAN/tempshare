@@ -1,0 +1,170 @@
+/* --- 1. DEĞİŞKENLER (Sadece Aydınlık) --- */
+:root {
+  --bg-body: #f1f5f9;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --bg-card: #ffffff;
+  --bg-input: #ffffff;
+  --border-color: #cbd5e1;
+  --bg-hover: #f8fafc;
+  
+  --primary-color: #3b82f6;    
+  --primary-hover: #2563eb;       
+  --accent-color: #10b981; 
+  --danger-color: #ef4444;
+  
+  --radius: 16px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --header-height: 70px;
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* --- 2. TEMEL AYARLAR (SCROLL ENGELLEME) --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  height: 100vh;       /* Ekran boyunu sabitle */
+  width: 100vw;        /* Genişliği sabitle */
+  overflow: hidden;    /* Scroll Çubuğunu Gizle */
+  display: flex; 
+  flex-direction: column;
+}
+
+button, a, input[type="checkbox"], label, .ts-logo, .ts-drop-zone {
+    cursor: pointer !important;
+}
+
+/* --- 3. HEADER --- */
+.ts-header { 
+  padding: 0 2rem; 
+  height: var(--header-height); 
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 100; 
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; /* Header asla küçülmesin */
+}
+
+.ts-header-inner { 
+  width: 100%; max-width: 1200px; margin: 0 auto;
+}
+
+.ts-logo { 
+  font-size: 1.5rem; font-weight: 800; color: var(--text-main); display: inline-flex; align-items: center; 
+}
+.ts-logo span { color: var(--primary-color); }
+
+/* --- 4. MAIN & HERO --- */
+.ts-main { 
+  flex: 1; /* Kalan boşluğu doldur */
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 4rem; 
+  width: 100%; 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 1rem 2rem; 
+  overflow: hidden; /* İçerik taşarsa gizle (Scroll çıkmasın) */
+}
+
+.ts-hero { flex: 1; max-width: 450px; }
+.ts-hero h1 { font-size: 2.8rem; line-height: 1.1; margin-bottom: 1rem; color: var(--text-main); letter-spacing: -1px; }
+.ts-hero p { font-size: 1rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; }
+.ts-feature-list { list-style: none; color: var(--text-muted); padding: 0; }
+.ts-feature-list li { margin-bottom: 0.8rem; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+
+/* --- 5. KART --- */
+.ts-card { 
+  flex: 0 0 440px; 
+  background: var(--bg-card); 
+  border-radius: var(--radius); 
+  box-shadow: var(--shadow); 
+  padding: 2rem; 
+  position: relative;
+  /* Kart çok uzarsa içinde scroll olsun ama sayfa kaymasın */
+  max-height: calc(100vh - 100px); 
+  overflow-y: auto; 
+}
+
+.ts-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
+.ts-card h2 { margin: 0; font-size: 1.4rem; color: var(--text-main); }
+.ts-limit-badge { background: var(--bg-hover); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); border: 1px solid var(--border-color); }
+
+/* --- 6. FORM --- */
+.ts-form-group { margin-bottom: 1rem; }
+.ts-form-inline { display: flex; gap: 1rem; }
+.ts-form-inline > div { flex: 1; }
+label { display: block; font-weight: 500; margin-bottom: 0.4rem; font-size: 0.85rem; color: var(--text-muted); }
+
+input:not([type="checkbox"]), select {
+  width: 100%; padding: 0.7rem; 
+  border: 1px solid var(--border-color); 
+  border-radius: 8px; font-size: 0.9rem; outline: none;
+  background: var(--bg-input); color: var(--text-main); transition: 0.3s;
+}
+input:focus, select:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+
+/* --- 7. DRAG & DROP --- */
+.ts-drop-zone { 
+  border: 2px dashed var(--border-color); border-radius: 12px; 
+  padding: 1.5rem 1rem; text-align: center; 
+  background: var(--bg-hover); margin-bottom: 1rem; 
+  color: var(--text-muted); transition: 0.2s; 
+}
+.ts-drop-zone:hover, .ts-drop-zone.drag-over { border-color: var(--primary-color); background: #eff6ff; }
+.ts-drop-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.ts-browse-link { color: var(--primary-color); text-decoration: underline; font-weight: 600; }
+
+.ts-file-list { list-style: none; max-height: 100px; overflow-y: auto; margin-bottom: 1rem; padding-right: 5px; }
+.ts-file-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg-hover); padding: 6px 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 5px; border: 1px solid var(--border-color); }
+
+.ts-remove-btn { 
+  background: transparent; border: none; color: var(--danger-color); 
+  width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; 
+  font-size: 1.2rem; margin-left: 10px; transition: all 0.2s; line-height: 1; 
+}
+.ts-remove-btn:hover { background-color: #fee2e2; }
+
+/* --- 8. GÜVENLİK --- */
+.ts-security-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.ts-security-badge { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-muted); }
+.ts-security-badge input { width: 16px; height: 16px; accent-color: var(--primary-color); }
+.ts-security-badge label { display: flex; align-items: center; gap: 6px; font-weight: 500; }
+
+/* --- 9. BUTONLAR --- */
+.ts-btn-primary { 
+  width: 100%; padding: 0.8rem; background: var(--primary-color); color: white; 
+  border: none; border-radius: 8px; font-weight: 600; font-size: 0.95rem; transition: 0.2s; 
+}
+.ts-btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+.ts-btn-secondary { background: none; border: none; color: var(--text-muted); text-decoration: underline; margin-top: 15px; font-size: 0.9rem; }
+.ts-btn-icon { background: var(--bg-hover); border: 1px solid var(--border-color); border-radius: 8px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: all 0.2s; }
+.ts-btn-icon:hover { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+/* --- 10. RESULT --- */
+.ts-result-content { text-align: center; }
+.ts-success-icon { font-size: 3.5rem; margin-bottom: 0.5rem; }
+.ts-link-box { display: flex; gap: 0.5rem; margin: 1.5rem 0; }
+.ts-link-box input { text-align: center; font-family: monospace; }
+.ts-qr-area { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed var(--border-color); }
+.ts-qr-area img { width: 120px; height: 120px; border-radius: 12px; border: 4px solid white; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+
+.ts-progress-track { height: 8px; background: var(--bg-hover); border-radius: 4px; margin-top: 1rem; overflow: hidden; }
+.ts-progress-fill { height: 100%; background: var(--primary-color); width: 0%; transition: width 0.1s linear; }
+.ts-progress-info { font-size: 0.85rem; text-align: center; margin-top: 8px; color: var(--text-muted); }
+
+.ts-footer { padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.8rem; flex-shrink: 0; }
+
+/* Mobilde scroll'u aç */
+@media (max-width: 900px) { 
+  body { height: auto; overflow: auto; }
+  .ts-main { flex-direction: column; padding: 1.5rem; gap: 2rem; overflow: visible; } 
+  .ts-card { width: 100%; flex: none; } 
+  .ts-hero { text-align: center; } 
+}
