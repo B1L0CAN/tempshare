@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>İndir - TempShare</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  
+  <header class="ts-header">
+    <div class="ts-container ts-header-inner">
+      <div class="ts-logo" onclick="window.location.href='index.html'">Temp<span>Share</span></div>
+      <button id="theme-toggle" class="ts-btn-icon" title="Temayı Değiştir">🌙</button>
+    </div>
+  </header>
+
+  <main class="ts-container ts-main">
+    
+    <section class="ts-card ts-download-card">
+      
+      <div class="ts-file-preview">
+          <div class="ts-file-icon-large">📄</div>
+          <span id="lock-badge" class="ts-status-badge locked" style="display: none;">
+              🔒 Şifre Korumalı
+          </span>
+      </div>
+
+      <div class="ts-file-details">
+        <h1 id="file-name">proje_taslagi_v2.zip</h1>
+        <div class="ts-file-meta">
+            <span>💾 24.5 MB</span>
+            <span class="ts-dot">•</span>
+            <span>👤 Yükleyen: Musa</span>
+            <span class="ts-dot">•</span>
+            <span>⏳ 2 Saat Kaldı</span>
+        </div>
+      </div>
+
+      <div id="password-section" class="ts-password-gate" style="display: none;">
+        <label for="file-password">Bu dosyayı indirmek için şifre gerekli:</label>
+        <div class="ts-input-wrapper">
+            <input type="password" id="file-password" placeholder="Şifreyi girin..." />
+        </div>
+        <p id="password-error" class="ts-error-text" style="display:none; margin-top:5px;">Hatalı şifre!</p>
+      </div>
+
+      <div class="ts-action-area">
+        <button id="download-btn" class="ts-btn-primary">
+            <span class="btn-icon">⬇️</span> Dosyayı İndir
+        </button>
+        
+        <div class="ts-security-note">
+            <span class="ts-shield-icon-small">🛡️</span> Dosya virüs taramasından geçirildi.
+        </div>
+      </div>
+
+      <div class="ts-card-footer">
+          <a href="#" class="ts-link-muted">Kötüye Kullanım Bildir</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="ts-footer">
+    <div class="ts-container"><small>TempShare &copy; 2025</small></div>
+  </footer>
+
+  <script src="js/download.js"></script>
+</body>
+</html>
