@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     
+    console.log("TempShare Uygulaması Başlatıldı");
+
     // --- ELEMENTLER ---
     const sections = {
         upload: document.getElementById("upload-section"),
