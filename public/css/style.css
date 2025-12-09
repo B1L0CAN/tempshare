@@ -353,7 +353,7 @@ button, a, input[type="checkbox"], label, .ts-logo, .ts-drop-zone {
   justify-content: center; 
   width: 100%; 
   padding: 2rem; 
-  overflow-y: auto; /* İçerik taşarsa sadece burası kayar */
+  overflow-y: hidden; /* İçerik taşarsa sadece burası kayar */
 }
 
 /* --- 5. İNDİRME KARTI (ÖZEL TASARIM) --- */
