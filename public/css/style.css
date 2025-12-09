@@ -1,12 +1,12 @@
-/* --- 1. DEĞİŞKENLER (Sadece Aydınlık) --- */
+/* --- 1. DEĞİŞKENLER --- */
 :root {
-  --bg-body: #f1f5f9;
-  --text-main: #0f172a;
+  --bg-body: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --text-main: #1e293b;
   --text-muted: #64748b;
   --bg-card: #ffffff;
   --bg-input: #ffffff;
   --border-color: #cbd5e1;
-  --bg-hover: #f8fafc;
+  --bg-hover: #f1f5f9;
   
   --primary-color: #3b82f6;    
   --primary-hover: #2563eb;       
@@ -14,157 +14,504 @@
   --danger-color: #ef4444;
   
   --radius: 16px;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --header-height: 70px;
+  --shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
   --font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* --- 2. TEMEL AYARLAR (SCROLL ENGELLEME) --- */
+/* KARANLIK MOD */
+body.dark-mode {
+  --bg-body: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --bg-card: #1e293b;
+  --bg-input: #334155;
+  --border-color: #475569;
+  --bg-hover: #334155;
+  --shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+}
+
+/* --- 2. TEMEL AYARLAR (SABİT EKRAN) --- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: var(--font-family);
-  background-color: var(--bg-body);
+  background: var(--bg-body);
   color: var(--text-main);
-  height: 100vh;       /* Ekran boyunu sabitle */
-  width: 100vw;        /* Genişliği sabitle */
-  overflow: hidden;    /* Scroll Çubuğunu Gizle */
+  height: 100vh;       
+  overflow: hidden;    
   display: flex; 
   flex-direction: column;
+  transition: background 0.3s, color 0.3s;
 }
 
-button, a, input[type="checkbox"], label, .ts-logo, .ts-drop-zone {
-    cursor: pointer !important;
-}
-
-/* --- 3. HEADER --- */
+/* --- 3. HEADER & NAV (HİZALAMA GARANTİLİ) --- */
 .ts-header { 
   padding: 0 2rem; 
-  height: var(--header-height); 
-  background: var(--bg-card);
-  border-bottom: 1px solid var(--border-color);
+  height: 80px; 
+  background: rgba(255,255,255,0.05); 
+  backdrop-filter: blur(10px); 
   z-index: 100; 
   display: flex;
   align-items: center;
-  flex-shrink: 0; /* Header asla küçülmesin */
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .ts-header-inner { 
-  width: 100%; max-width: 1200px; margin: 0 auto;
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  width: 100%;
+  max-width: 1200px; 
+  margin: 0 auto;
 }
 
 .ts-logo { 
-  font-size: 1.5rem; font-weight: 800; color: var(--text-main); display: inline-flex; align-items: center; 
+  font-size: 1.5rem; 
+  font-weight: 800; 
+  color: var(--text-main); 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
 }
 .ts-logo span { color: var(--primary-color); }
 
-/* --- 4. MAIN & HERO --- */
-.ts-main { 
-  flex: 1; /* Kalan boşluğu doldur */
+/* Navigasyon Alanı */
+.ts-nav { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+}
+
+/* Buton Grupları */
+#guest-nav, #user-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Tema Butonu (Güneş/Ay) */
+.ts-btn-icon { 
+  background: var(--bg-hover); 
+  border: 1px solid var(--border-color); 
+  border-radius: 8px; 
+  width: 44px;    
+  height: 44px;   
+  cursor: pointer; 
   display: flex; 
   align-items: center; 
   justify-content: center; 
-  gap: 4rem; 
+  font-size: 1.2rem; 
+  margin: 0;
+  color: var(--text-main);
+  transition: all 0.2s;
+}
+.ts-btn-icon:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Giriş Yap / Kayıt Ol Butonu */
+.ts-btn-small { 
+  padding: 0 1.5rem; 
+  height: 44px;   /* İkon ile EŞİT Yükseklik */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem; 
+  border: none;
+  line-height: 1; /* Satır yüksekliğini sıfırladık ki ortalansın */
+  margin: 0;
+}
+
+.ts-user-greeting { font-size: 0.9rem; color: var(--text-main); margin-right: 5px; }
+.ts-btn-text { background: none; border: none; font-weight: 600; color: var(--text-main); cursor: pointer; padding: 0.5rem; }
+
+/* --- 4. MAIN & HERO --- */
+.ts-main { 
+  flex: 1; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 3rem; 
   width: 100%; 
-  max-width: 1200px; 
+  max-width: 1100px; 
   margin: 0 auto; 
   padding: 1rem 2rem; 
-  overflow: hidden; /* İçerik taşarsa gizle (Scroll çıkmasın) */
+  overflow: hidden; 
 }
 
 .ts-hero { flex: 1; max-width: 450px; }
-.ts-hero h1 { font-size: 2.8rem; line-height: 1.1; margin-bottom: 1rem; color: var(--text-main); letter-spacing: -1px; }
-.ts-hero p { font-size: 1rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; }
+.ts-hero h1 { font-size: 2.8rem; line-height: 1.1; margin-bottom: 0.8rem; color: var(--text-main); letter-spacing: -1px; }
+.ts-hero p { font-size: 1rem; color: var(--text-muted); margin-bottom: 1.2rem; line-height: 1.4; }
 .ts-feature-list { list-style: none; color: var(--text-muted); padding: 0; }
-.ts-feature-list li { margin-bottom: 0.8rem; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+.ts-feature-list li { margin-bottom: 0.6rem; font-weight: 500; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
 
-/* --- 5. KART --- */
+/* --- 5. KART YAPISI --- */
 .ts-card { 
   flex: 0 0 440px; 
   background: var(--bg-card); 
   border-radius: var(--radius); 
   box-shadow: var(--shadow); 
   padding: 2rem; 
-  position: relative;
-  /* Kart çok uzarsa içinde scroll olsun ama sayfa kaymasın */
   max-height: calc(100vh - 100px); 
   overflow-y: auto; 
+  transition: background 0.3s;
 }
 
 .ts-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
 .ts-card h2 { margin: 0; font-size: 1.4rem; color: var(--text-main); }
-.ts-limit-badge { background: var(--bg-hover); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); border: 1px solid var(--border-color); }
+.ts-limit-badge { background: var(--bg-hover); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); border: 1px solid var(--border-color); }
+.premium-active .ts-limit-badge { background: #dcfce7; color: #166534; border-color: #86efac; }
 
 /* --- 6. FORM --- */
 .ts-form-group { margin-bottom: 1rem; }
 .ts-form-inline { display: flex; gap: 1rem; }
 .ts-form-inline > div { flex: 1; }
 label { display: block; font-weight: 500; margin-bottom: 0.4rem; font-size: 0.85rem; color: var(--text-muted); }
-
 input:not([type="checkbox"]), select {
-  width: 100%; padding: 0.7rem; 
-  border: 1px solid var(--border-color); 
-  border-radius: 8px; font-size: 0.9rem; outline: none;
-  background: var(--bg-input); color: var(--text-main); transition: 0.3s;
+  width: 100%; padding: 0.7rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.9rem; outline: none; background: var(--bg-input); color: var(--text-main); transition: 0.3s;
 }
 input:focus, select:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
 
-/* --- 7. DRAG & DROP --- */
-.ts-drop-zone { 
-  border: 2px dashed var(--border-color); border-radius: 12px; 
-  padding: 1.5rem 1rem; text-align: center; 
-  background: var(--bg-hover); margin-bottom: 1rem; 
-  color: var(--text-muted); transition: 0.2s; 
-}
-.ts-drop-zone:hover, .ts-drop-zone.drag-over { border-color: var(--primary-color); background: #eff6ff; }
-.ts-drop-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+/* --- 7. DRAG & DROP & DOSYA LİSTESİ --- */
+.ts-drop-zone { border: 2px dashed var(--border-color); border-radius: 12px; padding: 1.5rem 1rem; text-align: center; background: var(--bg-hover); cursor: pointer; margin-bottom: 1rem; color: var(--text-muted); transition: 0.2s; }
+.ts-drop-zone:hover, .ts-drop-zone.drag-over { border-color: var(--primary-color); background: rgba(59, 130, 246, 0.05); }
 .ts-browse-link { color: var(--primary-color); text-decoration: underline; font-weight: 600; }
 
 .ts-file-list { list-style: none; max-height: 100px; overflow-y: auto; margin-bottom: 1rem; padding-right: 5px; }
-.ts-file-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg-hover); padding: 6px 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 5px; border: 1px solid var(--border-color); }
+.ts-file-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg-hover); padding: 6px 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 5px; color: var(--text-main); border: 1px solid var(--border-color); }
 
 .ts-remove-btn { 
-  background: transparent; border: none; color: var(--danger-color); 
-  width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; 
+  background: transparent; border: none; color: var(--danger-color); font-weight: bold; cursor: pointer; 
+  width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; 
   font-size: 1.2rem; margin-left: 10px; transition: all 0.2s; line-height: 1; 
 }
-.ts-remove-btn:hover { background-color: #fee2e2; }
+.ts-remove-btn:hover { background-color: rgba(239, 68, 68, 0.1); color: #b91c1c; }
 
 /* --- 8. GÜVENLİK --- */
 .ts-security-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-.ts-security-badge { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-muted); }
-.ts-security-badge input { width: 16px; height: 16px; accent-color: var(--primary-color); }
-.ts-security-badge label { display: flex; align-items: center; gap: 6px; font-weight: 500; }
+.ts-security-badge { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; padding: 2px 0; }
+.ts-security-badge input { width: 16px; height: 16px; cursor: pointer; accent-color: var(--primary-color); }
+.ts-security-badge label { display: flex; align-items: center; gap: 6px; margin: 0; cursor: pointer; font-weight: 500; color: var(--text-muted); }
 
-/* --- 9. BUTONLAR --- */
-.ts-btn-primary { 
-  width: 100%; padding: 0.8rem; background: var(--primary-color); color: white; 
-  border: none; border-radius: 8px; font-weight: 600; font-size: 0.95rem; transition: 0.2s; 
-}
+/* --- 9. BUTTONS --- */
+.ts-btn-primary { width: 100%; padding: 0.8rem; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: 0.2s; }
 .ts-btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+.ts-btn-secondary { background: none; border: none; color: var(--text-muted); text-decoration: underline; cursor: pointer; margin-top: 10px; font-size: 0.9rem; }
 
-.ts-btn-secondary { background: none; border: none; color: var(--text-muted); text-decoration: underline; margin-top: 15px; font-size: 0.9rem; }
-.ts-btn-icon { background: var(--bg-hover); border: 1px solid var(--border-color); border-radius: 8px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: all 0.2s; }
-.ts-btn-icon:hover { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+/* --- 10. MODAL --- */
+.ts-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px); z-index: 1000; display: flex; justify-content: center; align-items: center; animation: fadeIn 0.3s ease; }
+.ts-modal-content { background: var(--bg-card); width: 100%; max-width: 400px; padding: 2rem; border-radius: 20px; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); animation: slideUp 0.3s ease; }
+.ts-close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 2rem; line-height: 1; color: var(--text-muted); cursor: pointer; }
+.ts-close-btn:hover { color: var(--danger-color); }
+.ts-auth-tabs { display: flex; border-bottom: 2px solid var(--border-color); margin-bottom: 1.5rem; }
+.ts-tab-btn { flex: 1; background: none; border: none; padding: 10px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; font-size: 0.95rem; }
+.ts-tab-btn.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+.ts-error-text { color: var(--danger-color); font-size: 0.85rem; margin-top: 15px; text-align: center; }
 
-/* --- 10. RESULT --- */
+/* --- 11. RESULT --- */
 .ts-result-content { text-align: center; }
 .ts-success-icon { font-size: 3.5rem; margin-bottom: 0.5rem; }
-.ts-link-box { display: flex; gap: 0.5rem; margin: 1.5rem 0; }
+.ts-link-box { display: flex; gap: 0.5rem; margin: 1.2rem 0; }
 .ts-link-box input { text-align: center; font-family: monospace; }
-.ts-qr-area { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed var(--border-color); }
+.ts-qr-area { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px dashed var(--border-color); }
 .ts-qr-area img { width: 120px; height: 120px; border-radius: 12px; border: 4px solid white; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-
 .ts-progress-track { height: 8px; background: var(--bg-hover); border-radius: 4px; margin-top: 1rem; overflow: hidden; }
 .ts-progress-fill { height: 100%; background: var(--primary-color); width: 0%; transition: width 0.1s linear; }
-.ts-progress-info { font-size: 0.85rem; text-align: center; margin-top: 8px; color: var(--text-muted); }
+.ts-progress-info { font-size: 0.8rem; text-align: center; margin-top: 5px; color: var(--text-muted); }
 
 .ts-footer { padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.8rem; flex-shrink: 0; }
 
-/* Mobilde scroll'u aç */
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 @media (max-width: 900px) { 
   body { height: auto; overflow: auto; }
   .ts-main { flex-direction: column; padding: 1.5rem; gap: 2rem; overflow: visible; } 
-  .ts-card { width: 100%; flex: none; } 
+  .ts-card { width: 100%; flex: none; max-height: none; } 
   .ts-hero { text-align: center; } 
+  .ts-feature-list { display: inline-block; text-align: left; }
+  .ts-header { padding: 0 1rem; }
+}
+
+
+/* --- 1. DEĞİŞKENLER & TEMALAR (Renk Paleti) --- */
+:root {
+  /* Aydınlık Mod (Varsayılan) */
+  --bg-body: #f1f5f9;            /* Daha temiz gri/mavi tonu */
+  --text-main: #0f172a;          /* Koyu lacivert/siyah */
+  --text-muted: #64748b;         /* Gri metinler */
+  --bg-card: #ffffff;            /* Kart arka planı */
+  --bg-input: #f8fafc;           /* Input içi */
+  --border-color: #e2e8f0;       /* Kenarlık rengi */
+  --bg-hover: #f1f5f9;           /* Hover rengi */
+  
+  --primary-color: #3b82f6;      /* Ana Mavi */
+  --primary-hover: #2563eb;      /* Koyu Mavi */
+  --accent-color: #10b981;       /* Yeşil (Güvenlik) */
+  --danger-color: #ef4444;       /* Kırmızı (Hata/Silme) */
+  --warning-color: #f59e0b;      /* Turuncu (Kilit) */
+  
+  --radius: 16px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --header-height: 70px;
+}
+
+/* KARANLIK MOD AYARLARI */
+body.dark-mode {
+  --bg-body: #0f172a;            /* Çok koyu lacivert */
+  --text-main: #f8fafc;          /* Beyaz */
+  --text-muted: #94a3b8;         /* Açık gri */
+  --bg-card: #1e293b;            /* Kart rengi */
+  --bg-input: #334155;           /* Input rengi */
+  --border-color: #475569;       /* Kenarlık */
+  --bg-hover: #334155;           /* Hover */
+  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); /* Daha koyu gölge */
+}
+
+/* --- 2. GENEL SIFIRLAMA --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  height: 100vh;       /* Sabit ekran */
+  overflow: hidden;    /* Scroll yok */
+  display: flex; 
+  flex-direction: column;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Tıklanabilir her şeye el işareti ekle */
+button, a, input[type="checkbox"], label, .ts-logo, .ts-drop-zone {
+    cursor: pointer !important;
+}
+
+/* --- 3. HEADER & NAV --- */
+.ts-header { 
+  padding: 0 2rem; 
+  height: var(--header-height); 
+  background: var(--bg-card); /* Header rengi kartla aynı olsun */
+  border-bottom: 1px solid var(--border-color);
+  z-index: 100; 
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow);
+}
+
+.ts-header-inner { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  width: 100%;
+  max-width: 1200px; 
+  margin: 0 auto;
+}
+
+.ts-logo { 
+  font-size: 1.5rem; 
+  font-weight: 800; 
+  color: var(--text-main); 
+  display: flex; 
+  align-items: center; 
+  user-select: none;
+}
+.ts-logo span { color: var(--primary-color); }
+
+.ts-nav { display: flex; align-items: center; gap: 12px; }
+
+/* Tema Değiştirme Butonu */
+.ts-btn-icon { 
+  background: var(--bg-hover); 
+  border: 1px solid var(--border-color); 
+  border-radius: 12px; 
+  width: 40px; height: 40px; 
+  display: flex; align-items: center; justify-content: center; 
+  font-size: 1.2rem; 
+  color: var(--text-main);
+  transition: all 0.2s;
+}
+.ts-btn-icon:hover { 
+  background: var(--primary-color); 
+  color: white; 
+  border-color: var(--primary-color); 
+  transform: translateY(-2px);
+}
+
+/* --- 4. MAIN & ORTALAMA --- */
+.ts-main { 
+  flex: 1; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  width: 100%; 
+  padding: 2rem; 
+  overflow-y: auto; /* İçerik taşarsa sadece burası kayar */
+}
+
+/* --- 5. İNDİRME KARTI (ÖZEL TASARIM) --- */
+.ts-download-card {
+  background: var(--bg-card);
+  width: 100%;
+  max-width: 480px;
+  padding: 3rem 2rem;
+  border-radius: 24px; /* Daha oval */
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  border: 1px solid var(--border-color);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+/* İkon Alanı */
+.ts-file-preview {
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+}
+
+.ts-file-icon-large {
+  font-size: 4rem;
+  width: 100px; height: 100px;
+  background: var(--bg-hover);
+  border-radius: 30px; /* Karemsi yuvarlak */
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto;
+  border: 2px solid var(--border-color);
+  color: var(--primary-color);
+}
+
+/* Kilit Rozeti */
+.ts-status-badge.locked {
+  position: absolute;
+  bottom: -10px; right: -10px;
+  background: var(--warning-color);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: var(--shadow);
+  border: 2px solid var(--bg-card);
+}
+
+/* Dosya Bilgileri */
+.ts-file-details h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.8rem;
+  color: var(--text-main);
+  font-weight: 700;
+  word-break: break-all;
+}
+
+.ts-file-meta {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+/* Şifre Alanı */
+.ts-password-gate {
+  background: var(--bg-hover);
+  padding: 1.5rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  text-align: left;
+  border: 1px solid var(--border-color);
+}
+
+.ts-password-gate label {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  color: var(--text-muted);
+  font-weight: 600;
+  display: block;
+}
+
+.ts-input-wrapper input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-main);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.ts-input-wrapper input:focus {
+  border-color: var(--primary-color);
+}
+
+.ts-error-text {
+  color: var(--danger-color);
+  font-size: 0.85rem;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+/* Butonlar */
+.ts-btn-primary { 
+  width: 100%; 
+  padding: 1rem; 
+  background: var(--primary-color); 
+  color: white; 
+  border: none; 
+  border-radius: 12px; 
+  font-weight: 700; 
+  font-size: 1rem;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.ts-btn-primary:hover { 
+  background: var(--primary-hover); 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.ts-btn-primary:active { transform: translateY(0); }
+
+.ts-security-note {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--accent-color);
+  background: rgba(16, 185, 129, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-flex; align-items: center; gap: 8px; font-weight: 500;
+}
+
+.ts-card-footer { margin-top: 2rem; }
+.ts-link-muted { color: var(--text-muted); font-size: 0.85rem; text-decoration: none; transition: color 0.2s; }
+.ts-link-muted:hover { color: var(--danger-color); text-decoration: underline; }
+
+/* --- 6. FOOTER --- */
+.ts-footer { 
+  padding: 1rem; 
+  text-align: center; 
+  color: var(--text-muted); 
+  font-size: 0.85rem; 
+  background: var(--bg-body);
+}
+
+/* --- 7. RESPONSIVE --- */
+@media (max-width: 600px) {
+  .ts-main { padding: 1rem; align-items: flex-start; }
+  .ts-download-card { padding: 2rem 1.5rem; }
+  .ts-file-icon-large { width: 80px; height: 80px; font-size: 3rem; }
+  .ts-header { padding: 0 1rem; }
 }
