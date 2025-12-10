@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>İndir - TempShare</title>
-  <link rel="stylesheet" href="../public\css\style.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   
@@ -56,12 +56,31 @@
       </div>
 
       <div class="ts-card-footer">
-          <a href="#" class="ts-link-muted">Kötüye Kullanım Bildir</a>
+          <a href="#" id="report-link" class="ts-link-muted">Kötüye Kullanım Bildir</a>
       </div>
 
     </section>
 
   </main>
+
+  <!-- Rapor Modalı -->
+  <div id="report-modal" class="ts-modal-overlay" style="display: none;">
+    <div class="ts-modal-content">
+      <button id="close-report-btn" class="ts-close-btn" aria-label="Kapat">&times;</button>
+      <h3 style="margin-bottom: 1rem;">Kötüye Kullanım Bildir</h3>
+      <form id="report-form" class="ts-auth-form">
+        <div class="ts-form-group">
+          <label>Başlık</label>
+          <input type="text" id="report-title" placeholder="Spam, zararlı içerik..." required />
+        </div>
+        <div class="ts-form-group">
+          <label>Açıklama</label>
+          <textarea id="report-desc" rows="4" style="width:100%;padding:0.7rem;border:1px solid var(--border-color);border-radius:8px;background:var(--bg-input);" placeholder="Ne olduğunu kısaca anlatın" required></textarea>
+        </div>
+        <button type="submit" class="ts-btn-primary">Gönder</button>
+      </form>
+    </div>
+  </div>
 
   <footer class="ts-footer">
     <div class="ts-container"><small>TempShare &copy; 2025</small></div>

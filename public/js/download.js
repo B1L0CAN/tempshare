@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    
     // --- ELEMENTLER ---
+    const themeBtn = document.getElementById("theme-toggle");
     const downloadBtn = document.getElementById("download-btn");
     const passwordSection = document.getElementById("password-section");
     const lockBadge = document.getElementById("lock-badge");
@@ -14,7 +14,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeReportBtn = document.getElementById("close-report-btn");
     const reportForm = document.getElementById("report-form");
 
-    // --- 1. DURUM SİMÜLASYONU ---
+    // --- 1. TEMA AYARI ---
+    if (themeBtn) {
+        // Daha önce kaydedilmiş tema var mı kontrol et
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeBtn.textContent = "☀️";
+        }
+
+        themeBtn.addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+            const isDark = document.body.classList.contains("dark-mode");
+            
+            // İkonu değiştir
+            themeBtn.textContent = isDark ? "☀️" : "🌙";
+            
+            // Tercihi tarayıcıya kaydet (Sayfa yenilenince gitmesin)
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+    }
+
+    // --- 2. DURUM SİMÜLASYONU ---
     const urlParams = new URLSearchParams(window.location.search);
     const isLocked = urlParams.get('locked') === 'true';
     const fileName = urlParams.get('name') || "proje_dosyasi_final.zip";
@@ -32,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         downloadBtn.innerHTML = "<span>⬇️</span> Dosyayı İndir";
     }
 
-    // --- 2. İNDİRME BUTONU ---
+    // --- 3. İNDİRME BUTONU ---
     downloadBtn.addEventListener("click", () => {
         if (isLocked) {
             const userPass = passwordInput.value;
@@ -59,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- 3. RAPORLAMA MODALI MANTIĞI ---
+    // --- 4. RAPORLAMA MODALI MANTIĞI ---
     
     // Modalı Aç
     if (reportLink) {
