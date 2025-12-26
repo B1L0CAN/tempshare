@@ -8,11 +8,11 @@ if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
 }
 
-const db = new Database(dbPath, { verbose: console.log });
+const db = new Database(dbPath);
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
 
-console.log('Veritabanı bağlantısı (B-kisisi) -> ' + dbPath);
+// Veritabanı bağlantısı başarılı
 
 // USERS + FILES + ABUSE_REPORTS şeması (final)
 const createTablesQuery = `
@@ -78,7 +78,7 @@ const triggerQuery = `
 `;
 db.exec(triggerQuery);
 
-console.log('Şema ve tetikleyiciler (users + files + abuse_reports) hazır.');
+// Şema ve tetikleyiciler hazır
 
 module.exports = db;
 
