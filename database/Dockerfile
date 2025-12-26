@@ -4,14 +4,17 @@ FROM node:20-alpine
 # Çalışma dizini
 WORKDIR /app
 
-# Package dosyalarını kopyala
-COPY package*.json ./
+# Database klasöründeki package dosyalarını kopyala
+COPY database/package*.json ./
 
 # Bağımlılıkları yükle
 RUN npm ci --only=production
 
-# Tüm dosyaları kopyala
-COPY . .
+# Database klasöründeki tüm dosyaları kopyala
+COPY database/ ./
+
+# Public klasörünü kopyala (proje root'undan)
+COPY public/ ./public/
 
 # Port'u expose et
 EXPOSE 3000
