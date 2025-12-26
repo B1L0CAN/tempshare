@@ -133,8 +133,10 @@ app.use('/api/files/', downloadLimiter);
 // Static Files (Frontend)
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Uploads Directory - Railway'de /app/uploads, local'de ../uploads
-const uploadDir = process.env.UPLOADS_DIR || path.join(__dirname, '../uploads');
+// Uploads Directory - Railway'de tek volume: /app/storage (içinde uploads/ klasörü)
+// Local'de: ../uploads
+const storageBase = process.env.STORAGE_BASE || path.join(__dirname, '../');
+const uploadDir = path.join(storageBase, 'uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
