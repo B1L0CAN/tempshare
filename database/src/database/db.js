@@ -2,7 +2,8 @@ const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
 
-const dbPath = path.join(__dirname, '../../data/temp_share.db');
+// Railway'de /app/data, local'de ../../data
+const dbPath = process.env.DB_PATH || path.join(__dirname, '../../data/temp_share.db');
 const dataDir = path.dirname(dbPath);
 if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
