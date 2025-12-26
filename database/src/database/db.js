@@ -85,4 +85,5 @@ db.exec(triggerQuery);
 // Şema ve tetikleyiciler hazır
 
 module.exports = db;
+module.exports.getDbPath = () => dbPath; // Dışarıdan erişim için
 

@@ -215,6 +215,7 @@ app.post('/api/auth/register', async (req, res) => {
         
         // Auto login after register
         const user = userManager.getUserById(id);
+        console.log(`[REGISTER] Yeni üye kaydı: ${email}`);
         res.status(201).json({ message: 'Kayıt başarılı.', user: { id: user.id, name: user.name, email: user.email } });
     } catch (error) {
         res.status(500).json({ error: 'Kayıt sırasında bir hata oluştu.' });
@@ -257,6 +258,7 @@ app.post('/api/auth/login', async (req, res) => {
         }
 
         userManager.touchLastLogin(user.id);
+        console.log(`[LOGIN] Kullanıcı girişi: ${email}`);
         res.json({ message: 'Giriş başarılı.', user: { id: user.id, name: user.name, email: user.email } });
     } catch (error) {
         res.status(500).json({ error: 'Giriş sırasında bir hata oluştu.' });
@@ -318,7 +320,8 @@ app.post('/api/upload', (req, res) => {
 
             // Veritabanı boyut kontrolü (SQLite için)
             try {
-                const dbPath = path.join(__dirname, '../data/temp_share.db');
+                const db = require('./src/database/db');
+                const dbPath = db.getDbPath ? db.getDbPath() : path.join(storageBase, 'data', 'temp_share.db');
                 if (fs.existsSync(dbPath)) {
                     const dbStats = fs.statSync(dbPath);
                     const dbSizeMB = dbStats.size / (1024 * 1024);
@@ -381,6 +384,12 @@ app.post('/api/upload', (req, res) => {
                 };
 
                 fileManager.insertFile(fileData);
+                
+                // Log: Dosya yükleme bilgisi
+                const ownerInfo = ownerId ? `üye: ${userManager.getUserById(ownerId)?.email || 'bilinmeyen'}` : 'misafir';
+                const passwordInfo = password_hash ? 'şifreli' : 'şifresiz';
+                const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                console.log(`[UPLOAD] Dosya yüklendi: ${file.originalname} (${sizeMB}MB), ${ownerInfo}, ${passwordInfo}, süre: ${sanitizedDuration}, limit: ${sanitizedMaxViews}`);
                 
                 // HMAC-signed token'ı kullanıcıya döndür (veritabanında da saklanır)
                 uploadedFiles.push({
@@ -496,6 +505,13 @@ app.post('/api/files/:token/download', async (req, res) => {
 
         // İndirme sayısını artır
         fileManager.incrementDownloadCount(file.id);
+        
+        // Log: İndirme bilgisi
+        const tokenPreview = token.substring(0, 8) + '...';
+        const passwordInfo = file.password_hash ? 'şifreli' : 'şifresiz';
+        const downloadCount = Number(file.download_count) + 1;
+        const downloadLimit = Number(file.download_limit);
+        console.log(`[DOWNLOAD] Dosya indirildi: ${file.filename}, token: ${tokenPreview}, ${passwordInfo}, indirme: ${downloadCount}/${downloadLimit}`);
 
         // Burn-after-download veya limit dolumu kontrolü
         const willExceedLimit = (file.download_count + 1) >= file.download_limit;
@@ -554,12 +570,16 @@ app.post('/api/reports', (req, res) => {
         // Dosya bulunamazsa bile rapor kaydedilebilir (dosya silinmiş olabilir)
 
         // Rapor kaydet
-        reportManager.insertReport({
+        const reportId = reportManager.insertReport({
             file_id: file_id,
             reporter_email: null, // Optional
             title,
             description
         });
+        
+        // Log: Geri bildirim bilgisi
+        const fileInfo = file_id ? `dosya_id: ${file_id.substring(0, 8)}...` : 'dosya bulunamadı';
+        console.log(`[REPORT] Geri bildirim alındı: "${title}", ${fileInfo}`);
 
         res.json({ message: 'Rapor iletildi.' });
 
