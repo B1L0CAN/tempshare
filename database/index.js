@@ -15,6 +15,9 @@ const fileManager = require('./src/database/fileManager');
 const reportManager = require('./src/database/reportManager');
 
 const app = express();
+
+app.set('trust proxy', 1);
+
 const PORT = process.env.PORT || 3000;
 
 // HMAC Secret Key (production'da environment variable'dan alınmalı)
